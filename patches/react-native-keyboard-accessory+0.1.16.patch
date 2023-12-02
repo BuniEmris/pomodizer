@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-native-keyboard-accessory/KeyboardAccessoryNavigation.js b/node_modules/react-native-keyboard-accessory/KeyboardAccessoryNavigation.js
+index 53ed2a9..e4cef17 100644
+--- a/node_modules/react-native-keyboard-accessory/KeyboardAccessoryNavigation.js
++++ b/node_modules/react-native-keyboard-accessory/KeyboardAccessoryNavigation.js
+@@ -15,7 +15,7 @@ import AccessoryArrowButton from './components/AccessoryArrowButton';
+ class KeyboardAccessoryNavigation extends Component {
+   handleDoneButton = () => {
+     this.props.onDone && this.props.onDone();
+-    Keyboard.dismiss();
++    // Keyboard.dismiss();
+   }
+ 
+   render() {

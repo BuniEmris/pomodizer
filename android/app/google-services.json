@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "614806400777",
+    "project_id": "pomodizer-54f18",
+    "storage_bucket": "pomodizer-54f18.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614806400777:android:7394865a0a9e97f81e2dd8",
+        "android_client_info": {
+          "package_name": "com.pomodizer.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "614806400777-a9ga9jvh8mjv67e187ta1bab008l9p2n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pomodizer.android",
+            "certificate_hash": "de5af94a529818b367e0dea1a3f3ac3a826ce56e"
+          }
+        },
+        {
+          "client_id": "614806400777-ifb7839dgh4udaof50hphqm39ogragvs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pomodizer.android",
+            "certificate_hash": "8b67ba9d54c9b838d97efe4054a3e1de97a0f3c7"
+          }
+        },
+        {
+          "client_id": "614806400777-laka6ptm6oq426bqaagmjr1ovumtqrg4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pomodizer.android",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "614806400777-rfvf8cto6o22g1vovgdr1hb6espj1sq8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkLszYWaWuS5Jst1BgFlIhtLUE3fMG-X0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "614806400777-rfvf8cto6o22g1vovgdr1hb6espj1sq8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "614806400777-kbs3n3i6mlaug0pbvmbimb9knije7kjb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.oidmtruk.pomodizer",
+                "app_store_id": "1616390952"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

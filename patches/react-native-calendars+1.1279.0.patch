@@ -1,0 +1,181 @@
+diff --git a/node_modules/react-native-calendars/src/calendar-list/index.d.ts b/node_modules/react-native-calendars/src/calendar-list/index.d.ts
+index 4e55643..313dc7d 100644
+--- a/node_modules/react-native-calendars/src/calendar-list/index.d.ts
++++ b/node_modules/react-native-calendars/src/calendar-list/index.d.ts
+@@ -1,6 +1,7 @@
+ import XDate from 'xdate';
+ import React, { Component } from 'react';
+-import { FlatList, ViewStyle, LayoutChangeEvent, FlatListProps } from 'react-native';
++import {  ViewStyle, LayoutChangeEvent, FlatListProps } from 'react-native';
++import {FlatList} from 'react-native-gesture-handler'
+ import { CalendarProps } from '../calendar';
+ export interface CalendarListProps extends CalendarProps, Omit<FlatListProps<any>, 'data' | 'renderItem'> {
+     /** Max amount of months allowed to scroll to the past. Default = 50 */
+diff --git a/node_modules/react-native-calendars/src/calendar-list/index.js b/node_modules/react-native-calendars/src/calendar-list/index.js
+index 6b58ed2..f5f1b79 100644
+--- a/node_modules/react-native-calendars/src/calendar-list/index.js
++++ b/node_modules/react-native-calendars/src/calendar-list/index.js
+@@ -1,7 +1,9 @@
+ import PropTypes from 'prop-types';
+ import XDate from 'xdate';
+ import React, { Component } from 'react';
+-import { FlatList, View } from 'react-native';
++import { View } from 'react-native';
++import { FlatList } from 'react-native-gesture-handler';
++
+ import { extractComponentProps } from '../componentUpdater';
+ import { xdateToData, parseDate } from '../interface';
+ import { page, sameDate, sameMonth } from '../dateutils';
+diff --git a/node_modules/react-native-calendars/src/calendar/day/basic/style.js b/node_modules/react-native-calendars/src/calendar/day/basic/style.js
+index 11711a0..7bd43b1 100644
+--- a/node_modules/react-native-calendars/src/calendar/day/basic/style.js
++++ b/node_modules/react-native-calendars/src/calendar/day/basic/style.js
+@@ -9,9 +9,10 @@ export default function styleConstructor(theme = {}) {
+             alignItems: 'center'
+         },
+         base: {
+-            width: 32,
+-            height: 32,
+-            alignItems: 'center'
++            width: 44,
++            height: 54,
++            alignItems: 'center',
++            justifyContent:'center',
+         },
+         text: {
+             marginTop: constants.isAndroid ? 4 : 6,
+@@ -27,11 +28,11 @@ export default function styleConstructor(theme = {}) {
+         },
+         selected: {
+             backgroundColor: appStyle.selectedDayBackgroundColor,
+-            borderRadius: 16
++            borderRadius: 6
+         },
+         today: {
+             backgroundColor: appStyle.todayBackgroundColor,
+-            borderRadius: 16
++            borderRadius: 6
+         },
+         todayText: {
+             color: appStyle.todayTextColor
+diff --git a/node_modules/react-native-calendars/src/expandableCalendar/Context/Provider.js b/node_modules/react-native-calendars/src/expandableCalendar/Context/Provider.js
+index 02a9d3b..07e3a26 100644
+--- a/node_modules/react-native-calendars/src/expandableCalendar/Context/Provider.js
++++ b/node_modules/react-native-calendars/src/expandableCalendar/Context/Provider.js
+@@ -1,7 +1,7 @@
+ import PropTypes from 'prop-types';
+ import XDate from 'xdate';
+ import React, { Component } from 'react';
+-import { StyleSheet, Animated, TouchableOpacity, View } from 'react-native';
++import { StyleSheet, Animated, TouchableOpacity, View, Text } from 'react-native';
+ import { toMarkingFormat } from '../../interface';
+ import styleConstructor from '../style';
+ import CalendarContext from './index';
+@@ -91,18 +91,29 @@ class CalendarProvider extends Component {
+         const today = this.presenter.getTodayDate();
+         this.setDate(today, UpdateSources.TODAY_PRESS);
+     };
++    onSelectedPress = (day) => {
++        this.setDate(day, UpdateSources.DAY_PRESS);
++    };
+     renderTodayButton() {
+         const { disabled, opacity, buttonY, buttonIcon } = this.state;
+         const { getTodayFormatted } = this.presenter;
+         const today = getTodayFormatted();
+-        return (<Animated.View style={[this.style.todayButtonContainer, { transform: [{ translateY: buttonY }] }]}>
+-        <TouchableOpacity style={[this.style.todayButton, this.props.todayButtonStyle]} onPress={this.onTodayPress} disabled={disabled}>
+-          <Animated.Image style={[this.style.todayButtonImage, { opacity }]} source={buttonIcon}/>
++        return (
++            <>
++        {this.state.date !== this.presenter.getTodayDate() ?
++            <View style={this.style.todayButtonContainer}>
++        <TouchableOpacity style={[this.style.todayButton, this.props.todayButtonStyle]} onPress={this.onTodayPress} >
++          {/* <Animated.Image style={[this.style.todayButtonImage, { opacity }]} source={buttonIcon}/> */}
+           <Animated.Text allowFontScaling={false} style={[this.style.todayButtonText, { opacity }]}>
+-            {today}
+-          </Animated.Text>
++          {today}
++        </Animated.Text>
+         </TouchableOpacity>
+-      </Animated.View>);
++      </View>:<View/>
++        }
++        </>
++ 
++
++        );
+     }
+     render() {
+         return (<CalendarContext.Provider value={this.getProviderContextValue()}>
+@@ -114,6 +125,7 @@ class CalendarProvider extends Component {
+ export default CalendarProvider;
+ const styles = StyleSheet.create({
+     container: {
+-        flex: 1
++        flex: 1,
++
+     }
+ });
+diff --git a/node_modules/react-native-calendars/src/expandableCalendar/WeekCalendar/index.js b/node_modules/react-native-calendars/src/expandableCalendar/WeekCalendar/index.js
+index c23511a..68979f5 100644
+--- a/node_modules/react-native-calendars/src/expandableCalendar/WeekCalendar/index.js
++++ b/node_modules/react-native-calendars/src/expandableCalendar/WeekCalendar/index.js
+@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
+ import XDate from 'xdate';
+ import { Map } from 'immutable';
+ import React, { Component } from 'react';
+-import { FlatList, View, Text } from 'react-native';
++import {View, Text } from 'react-native';
++import { FlatList } from 'react-native-gesture-handler';
+ import { extractComponentProps } from '../../componentUpdater';
+ import { weekDayNames, sameWeek } from '../../dateutils';
+ import { toMarkingFormat } from '../../interface';
+diff --git a/node_modules/react-native-calendars/src/expandableCalendar/style.js b/node_modules/react-native-calendars/src/expandableCalendar/style.js
+index 43b2e3f..db78916 100644
+--- a/node_modules/react-native-calendars/src/expandableCalendar/style.js
++++ b/node_modules/react-native-calendars/src/expandableCalendar/style.js
+@@ -22,7 +22,7 @@ export default function styleConstructor(theme = {}) {
+             })
+         },
+         containerWrapper: {
+-            paddingBottom: 6
++            paddingBottom: 6,
+         },
+         container: {
+             backgroundColor: appStyle.calendarBackground
+@@ -112,7 +112,7 @@ export default function styleConstructor(theme = {}) {
+         },
+         dayContainer: {
+             flex: 1,
+-            alignItems: 'center'
++            alignItems: 'center',
+         },
+         emptyDayContainer: {
+             flex: 1
+@@ -130,11 +130,12 @@ export default function styleConstructor(theme = {}) {
+             transform: constants.isRTL ? [{ scaleX: -1 }] : undefined
+         },
+         todayButtonContainer: {
+-            alignItems: appStyle.todayButtonPosition === 'right' ? 'flex-end' : 'flex-start',
++            alignItems:'flex-end',
++            // alignItems: appStyle.todayButtonPosition === 'right' ? 'flex-end' : 'flex-start',
+             position: 'absolute',
+             left: 20,
+             right: 20,
+-            bottom: 0
++            bottom: 35
+         },
+         todayButton: {
+             height: constants.isTablet ? 40 : 28,
+@@ -157,9 +158,9 @@ export default function styleConstructor(theme = {}) {
+             })
+         },
+         todayButtonText: {
+-            color: appStyle.todayButtonTextColor,
++            color: "#69C262",
+             fontSize: constants.isTablet ? appStyle.todayButtonFontSize + 2 : appStyle.todayButtonFontSize,
+-            fontWeight: appStyle.todayButtonFontWeight,
++            fontWeight: '700',
+             fontFamily: appStyle.todayButtonFontFamily
+         },
+         todayButtonImage: {
